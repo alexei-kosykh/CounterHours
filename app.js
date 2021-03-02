@@ -6,25 +6,29 @@
 // });
 let btnSend = document.querySelector("#btnSend");
 
-const drawDiagram = (category, amount) => {
-  var ctx = document.getElementById("diagramLinear").getContext("2d");
+let userObject = {
+  Reading: 0,
+  Laziness: 0,
+  Relax: 0,
+  Sleeping: 0,
+  Working: 0,
+  Studing_ENG: 0,
+  Studing_JS: 0,
+  Watching_FILMS: 0,
+  Walking: 0,
+};
+
+const convertationTime = (minutes) => Math.floor((minutes / 60) * 100) / 100;
+
+const drawHorBarDiagram = (category, amount, arrOpt) => {
+  var ctx = document.getElementById("diagramHorBar").getContext("2d");
   var chart = new Chart(ctx, {
     // The type of chart we want to create
     type: "horizontalBar",
 
     // The data for our dataset
     data: {
-      labels: [
-        "Reading",
-        "Laziness",
-        "Relax",
-        "Sleeping",
-        "Working",
-        "Studing_ENG",
-        "Studing_JS",
-        "Watching_FILMS",
-        "Walking",
-      ],
+      labels: Object.keys(userObject),
       datasets: [
         {
           label: ["Подпись сверху"],
@@ -62,22 +66,56 @@ const drawDiagram = (category, amount) => {
   });
 };
 
+const drawLineDiagram = () => {
+  let ctx = document.getElementById("diagramLinear").getContext("2d");
+  let speedData = {
+    labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s"], // дата
+    datasets: [
+      {
+        label: "Car Speed",
+        data: [0, 59, 75, 20, 20, 55, 40], // часы (по дням)
+      },
+    ],
+  };
+
+  let chartOptions = {
+    legend: {
+      display: true,
+      position: "top",
+      labels: {
+        boxWidth: 80,
+        fontColor: "black",
+      },
+    },
+  };
+  let lineChart = new Chart(ctx, {
+    type: "line",
+    data: speedData,
+    options: chartOptions,
+  });
+};
+
 btnSend.addEventListener("click" || "keyup", (event) => {
   event.preventDefault();
   if (event.code === "Enter" || event.type === "click") {
     let form = document.querySelector("#generalForm");
+
     let minutes = form.querySelector("#minutes").value;
+    let hours = convertationTime(minutes);
+
     let select = form.querySelector("#selectItem"); // выбрали select
     let selectedItem = select.selectedIndex; // нашли выбранный индекс option (число в последовательности option)
     let optionItem = select.options; // Получили option
 
-    let opt = [optionItem[select].value];
-    console.log(opt);
-    let valueSelectedItem = optionItem[selectedItem].value;
-    console.log(valueSelectedItem, minutes);
+    let valueSelectedItem = optionItem[selectedItem].innerText;
 
-    drawDiagram(valueSelectedItem, minutes);
+    userObject[valueSelectedItem] += hours;
 
+    drawHorBarDiagram(valueSelectedItem, hours);
+
+    drawLineDiagram(valueSelectedItem, hours);
+
+    console.log(userObject);
     form.reset();
   }
 });
