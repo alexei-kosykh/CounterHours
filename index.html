@@ -5,27 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&family=Raleway&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Track</title>
   </head>
-  <body style="background-color: rgb(63, 63, 63)">
-    <form name="general" id="generalForm">
-      <input id="minutes" type="text" />
-      <select id="selectItem" name="hero">
-        <option value="Reading">Reading</option>
-        <option value="Laziness" selected>Laziness</option>
-        <option value="Relax">Relax</option>
-        <option value="Sleeping">Sleeping</option>
-        <option value="Working">Working</option>
-        <option value="Studing_ENG">Studing_ENG</option>
-        <option value="Studing_JS">Studing_JS</option>
-        <option value="Watching_FILMS">Watching_FILMS</option>
-        <option value="Walking">Walking</option>
-      </select>
-      <input id="btnSend" type="submit" value="Отправить" />
-    </form>
+  <body style="background-color: rgb(160, 158, 126)">
+    <div class="flex-js-center">
+      <form name="general" id="generalForm">
+        <input class="input-minutes" id="minutes" type="text" />
+        <select id="selectItem" name="hero">
+          <option value="Reading">Reading</option>
+          <option value="Laziness">Laziness</option>
+          <option value="Relax">Relax</option>
+          <option value="Sleeping">Sleeping</option>
+          <option value="Working">Working</option>
+          <option value="Studing_ENG">Studing_ENG</option>
+          <option value="Studing_JS">Studing_JS</option>
+          <option value="Watching_FILMS">Watching_FILMS</option>
+          <option value="Walking">Walking</option>
+          <option value="Playing_Games">Playing_Games</option>
+        </select>
+        <input id="btnSend" type="submit" value="Отправить" />
+      </form>
+    </div>
     <br />
-    <canvas id="diagramHorBar"></canvas><br />
-    <canvas id="diagramLinear"></canvas>
+    <div class="graphics-block">
+      <div class="graphic"><canvas id="diagramHorBar"></canvas></div>
+      <div class="graphic"><canvas id="diagramLinear"></canvas></div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="app.js"></script>
