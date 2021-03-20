@@ -2,7 +2,7 @@ let btnSend = document.querySelector("#btnSend");
 let dataUserGeneral = {
   Reading: 0,
   Laziness: 0,
-  Relax: 0,
+  My_projects: 0,
   Sleeping: 0,
   Working: 0,
   Studing_ENG: 0,
@@ -19,7 +19,6 @@ if (localStorage.getItem("dataUserGeneral")) {
   dataUserWithDate = JSON.parse(
     window.localStorage.getItem("dataUserWithDate")
   );
-  debugger;
 } else {
   localStorage.setItem("dataUserGeneral", JSON.stringify(dataUserGeneral));
   localStorage.setItem("dataUserWithDate", JSON.stringify(dataUserWithDate));
@@ -209,8 +208,8 @@ const drawLineDiagram = () => {
         pointBackgroundColor: "rgb(37, 113, 163, 1)",
         pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
-          if (item.Relax) {
-            return item.Relax;
+          if (item.My_projects) {
+            return item.My_projects;
           }
           return 0;
         }),
