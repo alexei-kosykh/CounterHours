@@ -3,7 +3,7 @@ let dataUserGeneral = {
   Reading: 0,
   Laziness: 0,
   My_projects: 0,
-  Sleeping: 0,
+  Sport: 0,
   Working: 0,
   Studing_ENG: 0,
   Studing_JS: 0,
@@ -233,8 +233,8 @@ const drawLineDiagram = () => {
         pointBackgroundColor: "rgba(255, 206, 86, 1)",
         pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
-          if (item.Sleeping) {
-            return item.Sleeping;
+          if (item.Sport) {
+            return item.Sport;
           }
           return 0;
         }),
