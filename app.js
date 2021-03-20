@@ -14,7 +14,7 @@ let dataUserGeneral = {
 let dataUserWithDate = {};
 
 localStorage.setItem("dataUserGeneral", JSON.stringify(dataUserGeneral));
-localStorage.setItem("dataObjectForDate", JSON.stringify(dataUserGeneral));
+localStorage.setItem("dataUserWithDate", JSON.stringify(dataUserWithDate));
 
 const convertationTime = (minutes) => Math.round((minutes / 60) * 100) / 100;
 
@@ -89,6 +89,21 @@ const createDate = () => {
   return `${new Date().getDate()}.${
     new Date().getMonth() + 1
   }.${new Date().getFullYear()}`;
+};
+
+const checkArrayWithDate = (date, value, hours) => {
+  let objInObject = {};
+  // Проверка для второго графика и обнуление нужного параметра
+  if (dataUserWithDate[date]) {
+    objInObject = dataUserWithDate[date];
+    if (!objInObject[value]) {
+      objInObject[value] = 0;
+    }
+    objInObject[value] += hours;
+  } else {
+    objInObject = { [value]: hours + 0 };
+    dataUserWithDate[date] = objInObject;
+  }
 };
 
 const drawLineDiagram = () => {
@@ -177,37 +192,24 @@ btnSend.addEventListener("click" || "keyup", (event) => {
 
     dataUserGeneral[valueSelectedItem] += hours;
 
-    localStorage.setItem("dataUserGeneral", JSON.stringify(dataUserGeneral));
-
     const dateFull = createDate();
-    let objInObject = {};
-    // Проверка для второго графика и обнуление нужного параметра
-    if (dataUserWithDate[dateFull]) {
-      objInObject = dataUserWithDate[dateFull];
-      objInObject[valueSelectedItem] += hours + 0;
-    } else {
-      objInObject = { [valueSelectedItem]: hours };
-      dataUserWithDate[dateFull] = objInObject;
-    }
 
-    // dataUserWithDate.set([dateFull][valueSelectedItem] += hours);
-    // dataUserWithDate[date][valueSelectedItem] += hours;
-    // console.log(dataUserWithDate[].valueSelectedItem);
-    localStorage.setItem("dateTime", JSON.stringify(dateFull));
-
-    console.log(localStorage);
+    checkArrayWithDate(dateFull, valueSelectedItem, hours);
 
     drawHorBarDiagram(valueSelectedItem, hours);
 
     drawLineDiagram(valueSelectedItem, hours);
 
-    console.log(dataUserGeneral);
+    localStorage.setItem("dateTime", JSON.stringify(dateFull));
+    localStorage.setItem("dataUserGeneral", JSON.stringify(dataUserGeneral));
+    localStorage.setItem("dataUserWithDate", JSON.stringify(dataUserWithDate));
 
     form.reset();
   }
 });
 
 dataUserGeneral = JSON.parse(window.localStorage.getItem("dataUserGeneral"));
+dataUserWithDate = JSON.parse(window.localStorage.getItem("dataUserWithDate"));
 drawHorBarDiagram();
 drawLineDiagram();
 // window.localStorage.getClear();
