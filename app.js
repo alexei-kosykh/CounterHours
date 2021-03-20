@@ -14,15 +14,19 @@ let dataUserGeneral = {
 
 let dataUserWithDate = {};
 
-if (localStorage.getItem("dataUserGeneral")) {
-  dataUserGeneral = JSON.parse(window.localStorage.getItem("dataUserGeneral"));
-  dataUserWithDate = JSON.parse(
-    window.localStorage.getItem("dataUserWithDate")
-  );
-} else {
-  localStorage.setItem("dataUserGeneral", JSON.stringify(dataUserGeneral));
-  localStorage.setItem("dataUserWithDate", JSON.stringify(dataUserWithDate));
-}
+const saveLocalStorage = () => {
+  if (localStorage.getItem("dataUserGeneral")) {
+    dataUserGeneral = JSON.parse(
+      window.localStorage.getItem("dataUserGeneral")
+    );
+    dataUserWithDate = JSON.parse(
+      window.localStorage.getItem("dataUserWithDate")
+    );
+  } else {
+    localStorage.setItem("dataUserGeneral", JSON.stringify(dataUserGeneral));
+    localStorage.setItem("dataUserWithDate", JSON.stringify(dataUserWithDate));
+  }
+};
 
 const convertationTime = (minutes) => Math.round((minutes / 60) * 100) / 100;
 
@@ -429,6 +433,7 @@ btnSend.addEventListener("click" || "keyup", (event) => {
   }
 });
 
+saveLocalStorage();
 drawHorBarDiagram();
 drawLineDiagram();
 // window.localStorage.getClear();
