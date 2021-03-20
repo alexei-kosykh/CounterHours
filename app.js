@@ -85,7 +85,8 @@ const drawHorBarDiagram = () => {
       title: {
         display: true,
         text: "All amount of my hours",
-        fontSize: 25,
+        fontSize: 30,
+        fontColor: "#fff",
       },
       legend: {
         display: false,
