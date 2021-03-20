@@ -1,55 +1,33 @@
 let btnSend = document.querySelector("#btnSend");
 let dataUserGeneral = {
-  Reading: 2,
-  Laziness: 6,
-  Relax: 3,
-  Sleeping: 2,
-  Working: 4,
-  Studing_ENG: 5,
-  Studing_JS: 4,
-  Watching_FILMS: 2,
-  Walking: 7,
-  Playing_Games: 10,
+  Reading: 0,
+  Laziness: 0,
+  Relax: 0,
+  Sleeping: 0,
+  Working: 0,
+  Studing_ENG: 0,
+  Studing_JS: 0,
+  Watching_FILMS: 0,
+  Walking: 0,
+  Playing_Games: 0,
 };
 
-let dataUserWithDate = {
-  "9.3.2021": { Reading: 2, Playing_Games: 3 },
-  "10.3.2021": {
-    Reading: 2,
-    Laziness: 6,
-    Relax: 3,
-    Sleeping: 2,
-    Working: 1,
-    Studing_ENG: 5,
-    Studing_JS: 4,
-    Watching_FILMS: 2,
-    Walking: 7,
-    Playing_Games: 10,
-  },
-  "11.3.2021": {
-    Reading: 5,
-    Laziness: 5,
-    Relax: 3,
-    Sleeping: 2,
-    Working: 1,
-    Studing_ENG: 9,
-    Studing_JS: 10,
-    Watching_FILMS: 1,
-    Walking: 4,
-    Playing_Games: 11,
-  },
-  "12.3.2021": { Reading: 2 },
-  "13.3.2021": { Watching_FILMS: 2 },
-  "15.3.2021": { Reading: 10 },
-  "17.3.2021": { Playing_Games: 10 },
-};
+let dataUserWithDate = {};
 
-localStorage.setItem("dataUserGeneral", JSON.stringify(dataUserGeneral));
-localStorage.setItem("dataUserWithDate", JSON.stringify(dataUserWithDate));
+if (localStorage.getItem("dataUserGeneral")) {
+  dataUserGeneral = JSON.parse(window.localStorage.getItem("dataUserGeneral"));
+  dataUserWithDate = JSON.parse(
+    window.localStorage.getItem("dataUserWithDate")
+  );
+  debugger;
+} else {
+  localStorage.setItem("dataUserGeneral", JSON.stringify(dataUserGeneral));
+  localStorage.setItem("dataUserWithDate", JSON.stringify(dataUserWithDate));
+}
 
 const convertationTime = (minutes) => Math.round((minutes / 60) * 100) / 100;
 
-const drawHorBarDiagram = (category, amount, arrOpt) => {
+const drawHorBarDiagram = () => {
   var ctx = document.getElementById("diagramHorBar").getContext("2d");
 
   Chart.defaults.global.defaultFontFamily = "Raleway";
@@ -57,10 +35,8 @@ const drawHorBarDiagram = (category, amount, arrOpt) => {
   Chart.defaults.global.defaultFontColor = "#000";
 
   var chart = new Chart(ctx, {
-    // The type of chart we want to create
     type: "horizontalBar",
 
-    // The data for our dataset
     data: {
       labels: Object.keys(dataUserGeneral),
       datasets: [
@@ -73,33 +49,36 @@ const drawHorBarDiagram = (category, amount, arrOpt) => {
             "rgba(255, 206, 86, 0.6)",
             "rgb(22, 159, 133,0.6)",
             "rgb(214, 137, 16,0.6)",
-            "rgb(112, 123, 124,0.6)",
+            "rgb(12, 13, 124,0.6)",
+            "rgb(186, 74, 1, 0.6)",
             "rgb(46, 64, 83,0.6)",
-            "rgba(15, 0, 100, 0.3)",
+            "rgba(215, 79, 129, 0.5)",
           ],
           hoverBackgroundColor: [
-            "rgb(155, 199, 142,0.6)",
-            "rgba(255, 99, 142, 0.6)",
-            "rgba(54, 162, 245, 0.6)",
-            "rgba(255, 206, 96, 0.6)",
-            "rgba(75, 192, 182, 0.6)",
-            "rgba(153, 102, 245, 0.6)",
-            "rgba(255, 159, 74, 0.6)",
-            "rgba(9, 129, 55, 0.6)",
-            "rgba(15, 0, 110, 0.6)",
+            "rgb(203, 67, 53,1)",
+            "rgb(155, 89, 182,1)",
+            "rgb(37, 113, 163, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgb(22, 159, 133,1)",
+            "rgb(214, 137, 16,1)",
+            "rgb(12, 13, 124,1)",
+            "rgb(186, 74, 1, 1)",
+            "rgb(46, 64, 83,1)",
+            "rgba(215, 79, 129, 1)",
           ],
           borderColor: [
-            "rgb(155, 199, 132,1)",
-            "rgba(255, 99, 132, 1)",
-            "rgba(54, 162, 235, 1)",
+            "rgb(203, 67, 53,1)",
+            "rgb(155, 89, 182,1)",
+            "rgb(37, 113, 163, 1)",
             "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-            "rgba(255, 159, 64, 1)",
-            "rgba(9, 129, 45, 1)",
-            "rgba(15, 0, 100, 1)",
+            "rgb(22, 159, 133,1)",
+            "rgb(214, 137, 16,1)",
+            "rgb(12, 13, 124,1)",
+            "rgb(186, 74, 1, 1)",
+            "rgb(46, 64, 83,1)",
+            "rgba(215, 79, 129, 1)",
           ],
-          data: Object.values(dataUserGeneral), // Здесь нужно будет указывать вычисления суммы часов
+          data: Object.values(dataUserGeneral),
         },
       ],
     },
@@ -113,10 +92,25 @@ const drawHorBarDiagram = (category, amount, arrOpt) => {
         display: false,
       },
       scales: {
-        xAxes: [
+        yAxes: [
           {
             ticks: {
               beginAtZero: true,
+              fontColor: "#fff",
+            },
+            gridLines: {
+              color: "#fff",
+            },
+          },
+        ],
+        xAxes: [
+          {
+            ticks: {
+              fontColor: "#fff",
+              beginAtZero: true,
+            },
+            gridLines: {
+              color: "#fff",
             },
           },
         ],
@@ -146,7 +140,7 @@ const checkArrayWithDate = (date, value, hours) => {
   }
 };
 
-const drawLineDiagram = (value, hours) => {
+const drawLineDiagram = () => {
   let ctx = document.getElementById("diagramLinear").getContext("2d");
   let datesAll = Object.keys(dataUserWithDate);
   console.log(
@@ -165,18 +159,15 @@ const drawLineDiagram = (value, hours) => {
         label: `${Object.keys(dataUserGeneral)[0]}`,
         fill: true,
         lineTension: 0.1,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)",
+        backgroundColor: "rgb(203, 67, 53,0.1)",
+        borderColor: "rgb(203, 67, 53,1)",
         borderDash: [],
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,192,192,1)",
-        pointBackgroundColor: "#fff",
+        pointBorderColor: "rgb(203, 67, 53,1)",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackground: "rgba(75, 192,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointRadius: 1,
-        pointHitRadius: 10,
+        pointBackgroundColor: "rgb(203, 67, 53,1)",
+        pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
           if (item.Reading) {
             return item.Reading;
@@ -186,20 +177,17 @@ const drawLineDiagram = (value, hours) => {
       },
       {
         label: `${Object.keys(dataUserGeneral)[1]}`,
-        fill: false,
+        fill: true,
         lineTension: 0.1,
-        backgroundColor: "rgba(75,75,192,0.4)",
-        borderColor: "rgba(75,72,192,1)",
-        borderDash: [],
+        backgroundColor: "rgb(155, 89, 182,0.4)",
+        borderColor: "rgb(155, 89, 182,1)",
+        borderDash: [20, 5],
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,72,192,1)",
-        pointBackgroundColor: "#fff",
+        pointBorderColor: "rgb(155, 89, 182,1)",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackground: "rgba(75, 72,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointRadius: 1,
-        pointHitRadius: 10,
+        pointBackgroundColor: "rgb(155, 89, 182,1)",
+        pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
           if (item.Laziness) {
             return item.Laziness;
@@ -211,18 +199,15 @@ const drawLineDiagram = (value, hours) => {
         label: `${Object.keys(dataUserGeneral)[2]}`,
         fill: false,
         lineTension: 0.1,
-        backgroundColor: "rgba(150,206,180,0.4)",
-        borderColor: "rgba(150,206,180,1)",
+        backgroundColor: "rgb(37, 113, 163, 0.4)",
+        borderColor: "rgb(37, 113, 163, 1)",
         borderDash: [],
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(150,206,180,1)",
-        pointBackgroundColor: "#fff",
+        pointBorderColor: "rgb(37, 113, 163, 1)",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackground: "rgba(150,206,180,1)",
-        pointHoverBorderColor: "rgba(150,206,180,1)",
-        pointRadius: 1,
-        pointHitRadius: 10,
+        pointBackgroundColor: "rgb(37, 113, 163, 1)",
+        pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
           if (item.Relax) {
             return item.Relax;
@@ -234,18 +219,15 @@ const drawLineDiagram = (value, hours) => {
         label: `${Object.keys(dataUserGeneral)[3]}`,
         fill: false,
         lineTension: 0.1,
-        backgroundColor: "rgba(75,75,192,0.4)",
-        borderColor: "rgba(75,72,192,1)",
+        backgroundColor: "rgba(255, 206, 86, 0.4)",
+        borderColor: "rgba(255, 206, 86, 1)",
         borderDash: [],
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,72,192,1)",
-        pointBackgroundColor: "#fff",
+        pointBorderColor: "rgba(255, 206, 86, 1)",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackground: "rgba(75, 72,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointRadius: 1,
-        pointHitRadius: 10,
+        pointBackgroundColor: "rgba(255, 206, 86, 1)",
+        pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
           if (item.Sleeping) {
             return item.Sleeping;
@@ -257,18 +239,15 @@ const drawLineDiagram = (value, hours) => {
         label: `${Object.keys(dataUserGeneral)[4]}`,
         fill: false,
         lineTension: 0.1,
-        backgroundColor: "rgba(75,75,192,0.4)",
-        borderColor: "rgba(75,72,192,1)",
+        backgroundColor: "rgb(22, 159, 133,0.4)",
+        borderColor: "rgb(22, 159, 133,1)",
         borderDash: [],
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,72,192,1)",
-        pointBackgroundColor: "#fff",
+        pointBorderColor: "rgb(22, 159, 133,1)",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackground: "rgba(75, 72,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointRadius: 1,
-        pointHitRadius: 10,
+        pointBackgroundColor: "rgb(22, 159, 133,1)",
+        pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
           if (item.Working) {
             return item.Working;
@@ -280,18 +259,15 @@ const drawLineDiagram = (value, hours) => {
         label: `${Object.keys(dataUserGeneral)[5]}`,
         fill: false,
         lineTension: 0.1,
-        backgroundColor: "rgba(75,75,192,0.4)",
-        borderColor: "rgba(75,72,192,1)",
+        backgroundColor: "rgb(214, 137, 16,0.4)",
+        borderColor: "rgb(214, 137, 16,1)",
         borderDash: [],
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,72,192,1)",
-        pointBackgroundColor: "#fff",
+        pointBorderColor: "rgb(214, 137, 16,1)",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackground: "rgba(75, 72,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointRadius: 1,
-        pointHitRadius: 10,
+        pointBackgroundColor: "rgb(214, 137, 16,1)",
+        pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
           if (item.Studing_ENG) {
             return item.Studing_ENG;
@@ -303,18 +279,15 @@ const drawLineDiagram = (value, hours) => {
         label: `${Object.keys(dataUserGeneral)[6]}`,
         fill: false,
         lineTension: 0.1,
-        backgroundColor: "rgba(75,75,192,0.4)",
-        borderColor: "rgba(75,72,192,1)",
+        backgroundColor: "rgb(12, 13, 124,0.4)",
+        borderColor: "rgb(12, 13, 124,1)",
         borderDash: [],
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,72,192,1)",
-        pointBackgroundColor: "#fff",
+        pointBorderColor: "rgb(12, 13, 124,1)",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackground: "rgba(75, 72,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointRadius: 1,
-        pointHitRadius: 10,
+        pointBackgroundColor: "rgb(12, 13, 124,1)",
+        pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
           if (item.Studing_JS) {
             return item.Studing_JS;
@@ -326,18 +299,15 @@ const drawLineDiagram = (value, hours) => {
         label: `${Object.keys(dataUserGeneral)[7]}`,
         fill: false,
         lineTension: 0.1,
-        backgroundColor: "rgba(75,75,192,0.4)",
-        borderColor: "rgba(75,72,192,1)",
+        backgroundColor: "rgb(186, 74, 1, 0.4)",
+        borderColor: "rgb(186, 74, 1, 1)",
         borderDash: [],
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,72,192,1)",
-        pointBackgroundColor: "#fff",
+        pointBorderColor: "rgb(186, 74, 1, 1)",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackground: "rgba(75, 72,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointRadius: 1,
-        pointHitRadius: 10,
+        pointBackgroundColor: "rgb(186, 74, 1, 1)",
+        pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
           if (item.Watching_FILMS) {
             return item.Watching_FILMS;
@@ -349,18 +319,15 @@ const drawLineDiagram = (value, hours) => {
         label: `${Object.keys(dataUserGeneral)[8]}`,
         fill: false,
         lineTension: 0.1,
-        backgroundColor: "rgba(75,75,192,0.4)",
-        borderColor: "rgba(75,72,192,1)",
+        backgroundColor: "rgb(46, 64, 83,0.4)",
+        borderColor: "rgb(46, 64, 83,1)",
         borderDash: [],
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,72,192,1)",
-        pointBackgroundColor: "#fff",
+        pointBorderColor: "rgb(46, 64, 83,1)",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackground: "rgba(75, 72,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointRadius: 1,
-        pointHitRadius: 10,
+        pointBackgroundColor: "rgb(46, 64, 83,1)",
+        pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
           if (item.Walking) {
             return item.Walking;
@@ -370,20 +337,17 @@ const drawLineDiagram = (value, hours) => {
       },
       {
         label: `${Object.keys(dataUserGeneral)[9]}`,
-        fill: false,
+        fill: true,
         lineTension: 0.1,
-        backgroundColor: "rgba(75,75,192,0.4)",
-        borderColor: "rgba(75,72,192,1)",
-        borderDash: [],
+        backgroundColor: "rgba(25, 79, 129, 0.2)",
+        borderColor: "rgba(215, 79, 129, 1)",
+        borderDash: [10, 2],
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,72,192,1)",
-        pointBackgroundColor: "#fff",
+        pointBorderColor: "rgba(215, 79, 129, 1)",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackground: "rgba(75, 72,192,1)",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointRadius: 1,
-        pointHitRadius: 10,
+        pointBackgroundColor: "rgba(215, 79, 129, 1)",
+        pointRadius: 3,
         data: Object.values(dataUserWithDate).map(function (item) {
           if (item.Playing_Games) {
             return item.Playing_Games;
@@ -400,7 +364,7 @@ const drawLineDiagram = (value, hours) => {
       position: "top",
       labels: {
         boxWidth: 80,
-        fontColor: "black",
+        fontColor: "#fff",
       },
     },
     scales: {
@@ -408,6 +372,20 @@ const drawLineDiagram = (value, hours) => {
         {
           ticks: {
             beginAtZero: true,
+            fontColor: "#fff",
+          },
+          gridLines: {
+            color: "#fff",
+          },
+        },
+      ],
+      xAxes: [
+        {
+          ticks: {
+            fontColor: "#fff",
+          },
+          gridLines: {
+            color: "#fff",
           },
         },
       ],
@@ -440,9 +418,9 @@ btnSend.addEventListener("click" || "keyup", (event) => {
 
     checkArrayWithDate(dateFull, valueSelectedItem, hours);
 
-    drawHorBarDiagram(valueSelectedItem, hours);
+    drawHorBarDiagram();
 
-    drawLineDiagram(valueSelectedItem, hours);
+    drawLineDiagram();
 
     localStorage.setItem("dataUserGeneral", JSON.stringify(dataUserGeneral));
     localStorage.setItem("dataUserWithDate", JSON.stringify(dataUserWithDate));
@@ -451,8 +429,6 @@ btnSend.addEventListener("click" || "keyup", (event) => {
   }
 });
 
-dataUserGeneral = JSON.parse(window.localStorage.getItem("dataUserGeneral"));
-dataUserWithDate = JSON.parse(window.localStorage.getItem("dataUserWithDate"));
 drawHorBarDiagram();
 drawLineDiagram();
 // window.localStorage.getClear();
